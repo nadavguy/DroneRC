@@ -24,7 +24,7 @@ void parseSticksMessage(void)
 {
 	if (isParsingSticksMessage)
 	{
-		uint8_t localArray = {0};
+		uint8_t localArray[32] = {0};
 		memmove(localArray, sticksInputArray, 32);
 		for (int i = 0; i < 16 ; i++)
 		{

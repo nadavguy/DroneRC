@@ -373,7 +373,7 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 /* USER CODE BEGIN 1 */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-	if (huart == huart2)
+	if (huart == &huart2)
 	{
 		if (isParsingSticksMessage)
 		{

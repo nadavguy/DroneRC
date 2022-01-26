@@ -285,7 +285,7 @@ void CheckButtons(void)
 		}
 	}
 
-	if ( (currentSmaStatus.smaState != ARMED) && (currentSmaStatus.smaState != TRIGGERED) )
+	if ( true )
 	{
 		if ( (okPinState == GPIO_PIN_RESET) && (!isMenuDisplayed) && (!isPopupDisplayed) && (HAL_GetTick() - lastOkButtonPress > 400))
 		{
@@ -465,7 +465,7 @@ void CheckButtons(void)
 //			}
 //		}
 	}
-	else if ( (currentSmaStatus.smaState == ARMED) && (currentSmaStatus.smaState != TRIGGERED) )
+	else if ( false )
 	{
 		if ( (!isPopupDisplayed) && (okButtonPressDuration > 1000) )
 		{

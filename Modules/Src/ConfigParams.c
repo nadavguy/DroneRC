@@ -27,7 +27,7 @@ tEEV_U08 EEV_InformationLevel ={0, 0, 32};
 
 tEE_DATA ee;
 tCONFIG_DATA safeairConfiguration;
-
+//uint8_t droneType = 0;
 uint32_t ee_invalid_counter = 0;
 
 bool ee_validate1(void)

@@ -56,26 +56,6 @@ typedef struct sRC_LINK
 	int8_t DownlinkSNR;
 }tRC_LINK;
 
-typedef struct sSMA_Status
-{
-	float batteryVoltage;
-//	uint8_t smaState;
-	uint8_t triggerMode;
-	float Altitude;
-	float Acceleration;
-	uint16_t BITStatus;
-	PLATFORMName smaPlatformName;
-	PLATFORMType smaPlatfom;
-	bool isAutoPilotConnected;
-	SYSTEMState smaState;
-	SYSTEMConnectionStatus autoPilotConnection;
-//	PLATFORMType safeairPlatform;
-	TRIGGERMode safeairTriggerMode;
-	SIGNALStrength batteryStrength;
-	TRIGGERReason smaTriggerReason;
-	MENULEVELType rcMenuLevel;
-}tSMA_Status;
-
 typedef struct sWarning
 {
 	bool displayWarning;
@@ -120,8 +100,6 @@ extern bool everReceivedConfigurationMessage;
 extern char safeAirTailID[12];
 
 extern tRC_LINK rcLinkStatus;
-extern tSMA_Status previousSmaStatus;
-extern tSMA_Status currentSmaStatus;
 
 void sendChannelMessageToTBS(void);
 uint8_t calcCrossfireTelemetryFrameCRC(void);

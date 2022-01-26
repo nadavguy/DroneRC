@@ -280,6 +280,8 @@ extern tIMAGE_DATA statusBarImageArray[5];
 
 extern uint8_t nextFrameToDraw[153600];
 
+extern char droneType[6];
+
 extern void screenInit(void);
 extern void screenClear(void);
 extern void centeredString(uint16_t XCenterstart, uint16_t Ystart, const char * pString, uint16_t textColor, uint16_t backgroundColor, uint8_t numberOfCharactersToClear, sFONT localFont);

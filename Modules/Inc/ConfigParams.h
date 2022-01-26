@@ -63,6 +63,8 @@ extern tEEV_U08 EEV_BatteryType;
 extern tEEV_U08 EEV_LegacySystemType;
 extern tEEV_U16 EEV_MotorCutDelay;
 
+//extern uint8_t droneType;
+
 extern bool ee_validate1(void);
 extern void setParametersToDefaults(void);
 

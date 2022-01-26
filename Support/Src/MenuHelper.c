@@ -232,42 +232,10 @@ void initMenuPages(void)
 		integrationPage.cellTypeArray[4] = BACK;
 		integrationPage.cellTypeArray[5] = CLOSE;
 
-		if (!(currentSmaStatus.BITStatus & 0x04) && (!isAutoCalibActive) && (!isTestCalibActive))
-		{
-			integrationPage.nextCellIDArray[0] = (uint32_t)&disconnectPyroMessage;
-			integrationPage.nextCellIDArray[1] = (uint32_t)&disconnectPyroMessage;
-		}
-		else if (currentSmaStatus.smaState == IDLE)
-		{
-			integrationPage.nextCellIDArray[0] = (uint32_t)&autoCalibrationMessage;
-			integrationPage.nextCellIDArray[1] = (uint32_t)&testFlightMessage;
-			integrationPage.nextCellIDArray[2] = (uint32_t)&testMotorCutMessage;
-		}
-		else
-		{
-			if (isAutoCalibActive)
-			{
-				integrationPage.nextCellIDArray[0] = (uint32_t)&autoCalibrationMessage;
-			}
-			else
-			{
-				integrationPage.nextCellIDArray[0] = (uint32_t)&returnToIdleMessage;
-			}
 
-			if (isTestCalibActive)
-			{
-				integrationPage.nextCellIDArray[1] = (uint32_t)&testFlightMessage;
-			}
-			else
-			{
-				integrationPage.nextCellIDArray[1] = (uint32_t)&returnToIdleMessage;
-			}
-
-//			if (currentSmaStatus.smaState != IDLE)
-//			{
-				integrationPage.nextCellIDArray[2] = (uint32_t)&returnToIdleMessage;
-//			}
-		}
+		integrationPage.nextCellIDArray[0] = (uint32_t)&autoCalibrationMessage;
+		integrationPage.nextCellIDArray[1] = (uint32_t)&testFlightMessage;
+		integrationPage.nextCellIDArray[2] = (uint32_t)&testMotorCutMessage;
 		integrationPage.nextCellIDArray[3] = (uint32_t)&LowerBarDisplayItem;
 		integrationPage.nextCellIDArray[4] = 0;
 		integrationPage.nextCellIDArray[5] = 0;
@@ -437,11 +405,11 @@ void initMenuItems(void)
 	memcpy(&legacySystemItem.itemsArray[4],"Cancel",strlen("Cancel"));
 	memcpy(&legacySystemItem.itemsArray[5],"OK",strlen("OK"));
 	legacySystemItem.numberOfValuesInArray = 3;
-	memcpy(&legacySystemItem.valuesArray[0],"Phantom",strlen("Phantom"));
-	memcpy(&legacySystemItem.valuesArray[1],"Mavic  ",strlen("Mavic  "));
-	memcpy(&legacySystemItem.valuesArray[2],"SafeAir",strlen("SafeAir"));
-	memcpy(&legacySystemItem.valuesArray[3],"Auto   ",strlen("Auto   "));
-	legacySystemItem.parameterPointer = (uint32_t)&currentSmaStatus.smaPlatformName;
+	memcpy(&legacySystemItem.valuesArray[0],"Drone1",strlen("Drone1"));
+	memcpy(&legacySystemItem.valuesArray[1],"Drone2",strlen("Drone2"));
+	memcpy(&legacySystemItem.valuesArray[2],"Drone3",strlen("Drone3"));
+	memcpy(&legacySystemItem.valuesArray[3],"Drone4",strlen("Drone4"));
+	legacySystemItem.parameterPointer = (uint32_t)&droneType;
 
 	LowerBarDisplayItem.itemID = 9 ;
 	LowerBarDisplayItem.maxValue = 2;
@@ -865,13 +833,13 @@ void updateSelectedParameter(void)
 		if (stringItem.startValue + 4 != 7)
 		{
 			ee.legacySystemType = stringItem.startValue + 4;
-			currentSmaStatus.smaPlatformName = stringItem.startValue + 4;
+//			currentSmaStatus.smaPlatformName = stringItem.startValue + 4;
 			isLegacyDronePlatform = true;
 			logData("RC set to legacy mode", false, false, false);
 		}
 		else
 		{
-			currentSmaStatus.smaPlatformName = 0;
+//			currentSmaStatus.smaPlatformName = 0;
 			ee.legacySystemType = 0;
 			isLegacyDronePlatform = false;
 			logData("RC exited to legacy mode", false, false, false);

@@ -81,8 +81,8 @@
 char terminalBuffer[terminalRXBufferSize] = {0};
 //char *ttt;
 
-float fwVersion = 1.020;
-float buildID = 1.060;
+float fwVersion = 1.000;
+float buildID = 1.000;
 
 SYSTEMState rcState = PREINIT;
 
@@ -247,8 +247,8 @@ int main(void)
 
 	if (ee.legacySystemType != 0)
 	{
-		isLegacyDronePlatform = true;
-		currentSmaStatus.smaPlatformName = ee.legacySystemType;
+//		isLegacyDronePlatform = true;
+//		currentSmaStatus.smaPlatformName = ee.legacySystemType;
 	}
 
 	initMenuPages();
@@ -502,6 +502,7 @@ void UpdateScreenBrightness(bool screenBrightfullnessLevel)
 		isDisableButtonDetection = true;
 	}
 }
+
 void updateRCState(void)
 {
 	if ( (rcState == INIT) && (!isNoSignal) )
@@ -574,8 +575,8 @@ void updateRCState(void)
 		rcLinkStatus.UplinkRSSIAnt2 = 0xFF;
 		if (!isLegacyDronePlatform)
 		{
-			currentSmaStatus.smaPlatformName = NOPLATFORM;
-			currentSmaStatus.smaState = UNKNOWN;
+//			currentSmaStatus.smaPlatformName = NOPLATFORM;
+//			currentSmaStatus.smaState = UNKNOWN;
 		}
 		sprintf(terminalBuffer,"No connection with TBS TX");
 		logData(terminalBuffer, true, false, false);
@@ -617,131 +618,131 @@ void updateRCState(void)
 		logRCLinkStatus(true);
 	}
 
-	if (previousSmaStatus.smaPlatfom != currentSmaStatus.smaPlatfom)
-	{
-		shouldReDrawPlatformIcon = true;
-	}
-	else
-	{
-		shouldReDrawPlatformIcon = false;
-	}
+//	if (previousSmaStatus.smaPlatfom != currentSmaStatus.smaPlatfom)
+//	{
+//		shouldReDrawPlatformIcon = true;
+//	}
+//	else
+//	{
+//		shouldReDrawPlatformIcon = false;
+//	}
 
-	if (previousSmaStatus.smaPlatformName != currentSmaStatus.smaPlatformName)
-	{
-		shouldUpdatePlatformText = true;
-	}
-	else
-	{
-		shouldUpdatePlatformText = false;
-	}
+//	if (previousSmaStatus.smaPlatformName != currentSmaStatus.smaPlatformName)
+//	{
+//		shouldUpdatePlatformText = true;
+//	}
+//	else
+//	{
+//		shouldUpdatePlatformText = false;
+//	}
 
-	if ( ( ((displayWarning.BITStatus != previousBITStatus) && (displayWarning.BITStatus != 0x00)) ||
-			( ((batteryStrength == LOW) || (batteryStrength == EMPTY)) && (shouldRedrawBatteryIcon) ) )
-			&& (currentSmaStatus.smaState != TRIGGERED) )
-	{
-		displayWarning.displayWarning = true;
-		shouldDrawRedAlertIcon = true;
-		shouldUpdateStatusText = true;
-		if (displayWarning.BITStatus != 0x00)
-		{
-			previousBITStatus = displayWarning.BITStatus;
-		}
-	}
-	else if ( ( (currentSmaStatus.smaState == IDLE) || (currentSmaStatus.smaState == ARMED) )
-			&& (displayWarning.BITStatus == 0) && (previousBITStatus != 0) )
-	{
-		shouldUpdateStatusText = true;
-		shouldClearDisplayedWarning = true;
-		displayWarning.displayWarning = false;
-	}
-	else
-	{
-		//		displayWarning.displayWarning = false;
-	}
+//	if ( ( ((displayWarning.BITStatus != previousBITStatus) && (displayWarning.BITStatus != 0x00)) ||
+//			( ((batteryStrength == LOW) || (batteryStrength == EMPTY)) && (shouldRedrawBatteryIcon) ) )
+//			&& (currentSmaStatus.smaState != TRIGGERED) )
+//	{
+//		displayWarning.displayWarning = true;
+//		shouldDrawRedAlertIcon = true;
+//		shouldUpdateStatusText = true;
+//		if (displayWarning.BITStatus != 0x00)
+//		{
+//			previousBITStatus = displayWarning.BITStatus;
+//		}
+//	}
+//	else if ( ( (currentSmaStatus.smaState == IDLE) || (currentSmaStatus.smaState == ARMED) )
+//			&& (displayWarning.BITStatus == 0) && (previousBITStatus != 0) )
+//	{
+//		shouldUpdateStatusText = true;
+//		shouldClearDisplayedWarning = true;
+//		displayWarning.displayWarning = false;
+//	}
+//	else
+//	{
+//		//		displayWarning.displayWarning = false;
+//	}
 
-	if (previousSmaStatus.isAutoPilotConnected != currentSmaStatus.isAutoPilotConnected)
-	{
-		shouldReDrawAutoPilotIcon = true;
-	}
-	else
-	{
-		shouldReDrawAutoPilotIcon = false;
-	}
-
-	if (previousSmaStatus.safeairTriggerMode != currentSmaStatus.safeairTriggerMode)
-	{
-		shouldReDrawTriggerModeIcon = true;
-	}
-	else
-	{
-		shouldReDrawTriggerModeIcon = false;
-	}
-
-
-
-	if ( (currentSmaStatus.smaState == 0x4) && (previousSmaStatus.smaState != UNKNOWN) )
-	{
-		//Sound SMA Error
-		previousSmaStatus.smaState = UNKNOWN;
-		shouldUpdateStatusText = true;
-	}
-	else if ( (currentSmaStatus.smaState == 0x05) && (previousSmaStatus.smaState != MAINTENANCE) )
-	{
-		//Sound SMA Maintenance?
-		previousSmaStatus.smaState = MAINTENANCE;
-		shouldUpdateStatusText = true;
-	}
-	else if (currentSmaStatus.smaState == 0x03)
-	{
-		//Sound SMA triggered
-		if (previousSmaStatus.smaState != TRIGGERED)
-		{
-			previousSmaStatus.smaState = TRIGGERED;
-			shouldUpdateStatusText = true;
-		}
-		nextPattern = &triggeredSafeAirPattern;
-	}
-	else if ( (currentSmaStatus.smaState == 0x02) && (previousSmaStatus.smaState != ARMED) )
-	{
-		//Sound SMA Armed
-		previousSmaStatus.smaState = ARMED;
-		nextPattern = &armedBuzzerPattern;
-		shouldUpdateStatusText = true;
-	}
-	else if ( (currentSmaStatus.smaState == 0x01) && (previousSmaStatus.smaState != IDLE) )
-	{
-		if (isBuzzerCycleEnded)
-		{
-			//Sound SMA Disarmed
-			nextPattern = &idleBuzzerPattern;
-			previousSmaStatus.smaState = IDLE;
-			shouldUpdateStatusText = true;
-		}
-	}
-	else if (currentSmaStatus.batteryVoltage <= 3.5)
-	{
-		//Sound SMA low battery
-	}
-	else if (isNoSignal)
-	{
-		//Sound no Link
-		nextPattern = &noTelemetryPattern;
-	}
-	else if (isSignalLow)
-	{
-		//Sound Low signal
-		nextPattern = &lowTelemetryPattern;
-	}
-	else if (isLowBattery)
-	{
-		// Sound low RC battery
-		nextPattern = &lowRCBatteryPattern;
-	}
-	else
-	{
-		//Sound nothing
-		nextPattern = &noBuzzerPattern;
-	}
+//	if (previousSmaStatus.isAutoPilotConnected != currentSmaStatus.isAutoPilotConnected)
+//	{
+//		shouldReDrawAutoPilotIcon = true;
+//	}
+//	else
+//	{
+//		shouldReDrawAutoPilotIcon = false;
+//	}
+//
+//	if (previousSmaStatus.safeairTriggerMode != currentSmaStatus.safeairTriggerMode)
+//	{
+//		shouldReDrawTriggerModeIcon = true;
+//	}
+//	else
+//	{
+//		shouldReDrawTriggerModeIcon = false;
+//	}
+//
+//
+//
+//	if ( (currentSmaStatus.smaState == 0x4) && (previousSmaStatus.smaState != UNKNOWN) )
+//	{
+//		//Sound SMA Error
+//		previousSmaStatus.smaState = UNKNOWN;
+//		shouldUpdateStatusText = true;
+//	}
+//	else if ( (currentSmaStatus.smaState == 0x05) && (previousSmaStatus.smaState != MAINTENANCE) )
+//	{
+//		//Sound SMA Maintenance?
+//		previousSmaStatus.smaState = MAINTENANCE;
+//		shouldUpdateStatusText = true;
+//	}
+//	else if (currentSmaStatus.smaState == 0x03)
+//	{
+//		//Sound SMA triggered
+//		if (previousSmaStatus.smaState != TRIGGERED)
+//		{
+//			previousSmaStatus.smaState = TRIGGERED;
+//			shouldUpdateStatusText = true;
+//		}
+//		nextPattern = &triggeredSafeAirPattern;
+//	}
+//	else if ( (currentSmaStatus.smaState == 0x02) && (previousSmaStatus.smaState != ARMED) )
+//	{
+//		//Sound SMA Armed
+//		previousSmaStatus.smaState = ARMED;
+//		nextPattern = &armedBuzzerPattern;
+//		shouldUpdateStatusText = true;
+//	}
+//	else if ( (currentSmaStatus.smaState == 0x01) && (previousSmaStatus.smaState != IDLE) )
+//	{
+//		if (isBuzzerCycleEnded)
+//		{
+//			//Sound SMA Disarmed
+//			nextPattern = &idleBuzzerPattern;
+//			previousSmaStatus.smaState = IDLE;
+//			shouldUpdateStatusText = true;
+//		}
+//	}
+//	else if (currentSmaStatus.batteryVoltage <= 3.5)
+//	{
+//		//Sound SMA low battery
+//	}
+//	else if (isNoSignal)
+//	{
+//		//Sound no Link
+//		nextPattern = &noTelemetryPattern;
+//	}
+//	else if (isSignalLow)
+//	{
+//		//Sound Low signal
+//		nextPattern = &lowTelemetryPattern;
+//	}
+//	else if (isLowBattery)
+//	{
+//		// Sound low RC battery
+//		nextPattern = &lowRCBatteryPattern;
+//	}
+//	else
+//	{
+//		//Sound nothing
+//		nextPattern = &noBuzzerPattern;
+//	}
 	if (isBuzzerCycleEnded)
 	{
 		setBuzzerPattern(*nextPattern);
@@ -752,9 +753,9 @@ void updateRCState(void)
 	if ( (shouldUpdateStatusText  || shouldReDrawTriggerModeIcon || shouldReDrawAutoPilotIcon || shouldRedrawBatteryIcon
 			|| shouldUpdatePlatformText || shouldReDrawPlatformIcon ) && (HAL_GetTick() - lastLogEntry > 50) )// || shouldDrawRedAlertIcon
 	{
-		sprintf(terminalBuffer,"SMA, %d, %d, %6.3f, %6.3f, %6.3f",currentSmaStatus.smaState, currentSmaStatus.triggerMode,
-				currentSmaStatus.batteryVoltage, currentSmaStatus.Altitude, currentSmaStatus.Acceleration);
-		logData(terminalBuffer, true, false, false);
+//		sprintf(terminalBuffer,"SMA, %d, %d, %6.3f, %6.3f, %6.3f",currentSmaStatus.smaState, currentSmaStatus.triggerMode,
+//				currentSmaStatus.batteryVoltage, currentSmaStatus.Altitude, currentSmaStatus.Acceleration);
+//		logData(terminalBuffer, true, false, false);
 		lastLogEntry = HAL_GetTick();
 	}
 
@@ -766,7 +767,6 @@ void updateRCState(void)
 	}
 
 }
-
 
 /* USER CODE END 4 */
 
